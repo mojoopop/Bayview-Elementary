@@ -6,11 +6,12 @@ for the Bayview Elementary Student Record Keeper.
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "classRoster.h"
 #include "attendence.h"
 #include "whoCanISpeakTo.h"
-#include "hallpass.h"
+#include "manageEmployees.h"
 
 main()
 {
@@ -25,7 +26,7 @@ displayMenu()
 
     printf("\tWelcome to Bayview Elemntary School Database\t\n");
     printf("\n\n\nPlease select what you would like to do:\n");
-    printf("\n1. Hall Pass\n2. Class Roster\n3. Attendence\n4. Who can I speak to?\n5. Close Program\n");
+    printf("\n1. Manage Employees\n2. Class Roster\n3. Attendence\n4. Who can I speak to?\n5. Close Program\n");
 
     printf("\nOption Selected(Press enter):");
     scanf("%d", &option);
@@ -40,9 +41,9 @@ HPLABEL:
 
         option = 0;
         system("cls");
-        printf("\tHallpass\t\n\n");
+        printf("\tManage Employees List\t\n\n");
         printf("\nPlease select what you would like to do:\n");
-        printf("\n1. Sign Out\n2. Sign In\n3. View Last Student to Sign Out\n4. Where is my student?\n5. Previous Menu\n");
+        printf("\n1. Hire\n2. Fire\n3. View least senior employeee\n4. Is this person hired?\n5. Previous Menu\n");
 
         printf("\nOption Selected(Press enter):");
         scanf("%d", &option);
@@ -55,10 +56,13 @@ HPLABEL:
             int sperson;
 
             system("cls");
-            printf("\nPlease enter your student number(XXXXXX): \n");
+            printf("\nPlease enter an employee number to hire: \n");
             scanf("%d", &fperson);
 
-            printf("\n\nWhat is your hall buddies student number(XXXXXX)?\n");
+            push(s, fperson);
+            printf("\n%d has been hired!\n", fperson);
+            
+            /*printf("\n\nWhat is your hall buddies student number(XXXXXX)?\n");
             scanf("%d", &sperson);
 
 
@@ -66,7 +70,7 @@ HPLABEL:
             if (push(s, fperson) == 1 && push(s, sperson))
             {
                 printf("\n%d You have been signed out with %d!\n", fperson, sperson);
-            }
+            }*/
 
             sleep(2.5);
             goto HPLABEL;
@@ -75,7 +79,7 @@ HPLABEL:
         } else if (option == 2)
         {
 
-            printf("\n%d Has signed in with his hall buddy: %d\n", pop(s), pop(s));
+            printf("\n%d has been fired!\n", pop(s));
 
             sleep(2);
             goto HPLABEL;
@@ -87,11 +91,11 @@ HPLABEL:
 
             if (curSigOut == -1)
             {
-                printf("\nStack Empty: Everyone is in class!\n");
+                printf("\nStack Empty: No employees added yet!\n");
                 sleep(2);
             } else
             {
-                printf("\n%d is currently signed out\n", peek(s));
+                printf("\n%d is next to be let go!\n", peek(s));
                 sleep(2);
             }
             goto HPLABEL;
@@ -103,7 +107,7 @@ HPLABEL:
 
 
             
-            printf("\nEnter the student number: \n");
+            printf("\nEnter the employee number: \n");
             scanf("%d", &key);
 
             //Find the key 
@@ -114,15 +118,17 @@ HPLABEL:
 
                 if (result == key)
                 {
-                    printf("\nStudent %d is not in class!\n");
+                    printf("\n%d is currently employed!\n",result);
                     break;
+                    sleep(2);
                 }
             }
             
             //print a message if the key is not found in the stack.
             if(result != key)
             {
-                printf("\nStudent: %d is in class!\n",key);
+                printf("\nEmployee %d is not currently employed!\n",key);
+                sleep(2);
             }
             
             //Re-stack in the proper order
@@ -183,7 +189,9 @@ HPLABEL:
         }
     } else if (option == 3)
     {
+        QLABEL:
         option = 0;
+        Queue* q = initQueue();
         system("cls");
         printf("\nAttendence\t\n\n");
         printf("\nPlease select what you would like to do:\n");
@@ -191,15 +199,29 @@ HPLABEL:
 
         printf("\nOption Selected(Press enter):");
         scanf("%d", &option);
-
+        
+        
         if (option == 1)
         {
-            printf("Present Student");
-            /*INSERT attStudPresent() METHOD HERE*/
+            int present;
+
+            
+            printf("\nEnter the student # that is present(Press enter after each student): ");
+            scanf("%d", &present);
+            
+            enqueue(q,present);
+            goto QLABEL;
+            
+            
+            
+                    
+            
         } else if (option == 2)
         {
-            printf("Student Dismissed");
-            /*INSERT attStudDismissed() METHOD HERE*/
+            
+            printf("Student: %d dismissed",dequeue(q));
+            goto QLABEL;
+            
         } else if (option == 3)
         {
             printf("View Attendence");

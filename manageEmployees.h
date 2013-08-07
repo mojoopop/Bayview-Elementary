@@ -1,4 +1,4 @@
-#define	MAX	2	
+#define	MAX	100	
 
 typedef struct {
     int top;
@@ -17,11 +17,12 @@ int empty(Stack *s) {
 
 int push(Stack *s, int n) {
     if (s->top == MAX - 1) {
-        printf("Stack Overflow: Permission denied, please wait for someone to come back!\n");
+        printf("Stack Overflow: Fire someone to make room!\n");
         return 0;
     }
     s->top++;
     s->list[s->top] = n;
+    
     return 1;
     
 }
@@ -29,15 +30,19 @@ int push(Stack *s, int n) {
 int pop(Stack *s) {
     if(empty(s))
     {
-        printf("\nStack Empty: Everyone is in class\n");       
+        printf("\nStack Empty: No one has ever been hired!\n");       
+        sleep(2);
     }
     return s->list[s->top--];
+    
 }
 
 int peek(Stack *s) {
     if (empty(s)) {
-        printf("\nStack Empty: Everyone is in class\n");
+        printf("\nStack Empty: No one has been hired!\n");
+        sleep(2);
     }
     return s->list[s->top];
+    
 }
 
